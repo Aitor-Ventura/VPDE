@@ -10,7 +10,12 @@ const GLOBALS = {
     mouseDown: { x: undefined, y: undefined },
     mouseUp: { x: undefined, y: undefined },
     distance: (a, b) => Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)), 
-    angle: (a, b) => Math.atan2(b.y - a.y, b.x - a.x) 
+    angle: (a, b) => Math.atan2(b.y - a.y, b.x - a.x),
+    
+    up: false,
+    down: false,
+    left: false,
+    right: false,
 };
 
 const PROPS = [];
@@ -22,9 +27,17 @@ class Player
         this.x = x;
         this.y = y;
         this.radius = 30;
+        this.speed = 5;
     }
     
     render() {
+        const { up, down, left, right } = GLOBALS;
+        
+        if (up) this.y -= this.speed;
+        if (down) this.y += this.speed;
+        if (left) this.x -= this.speed;
+        if (right) this.x += this.speed;
+        
         this.x += GLOBALS.charX / 10;
         this.y += GLOBALS.charY / 10;
 
@@ -78,6 +91,47 @@ function init()
     window.addEventListener("mouseup", tEnd);
     window.addEventListener("touchmove", tMove);
     window.addEventListener("mousemove", tMove);
+    window.addEventListener("keydown", (e) => {
+        switch(e.key){
+            case "ArrowUp":
+            case "w":
+                GLOBALS.up = true;
+                break;
+            case "ArrowDown":
+            case "s":
+                GLOBALS.down = true;
+                break;
+            case "ArrowLeft":
+            case "a":
+                GLOBALS.left = true;
+                break;
+            case "ArrowRight":
+            case "d":
+                GLOBALS.right = true;
+                break;
+        }
+    });
+
+    window.addEventListener("keyup", (e) => {
+        switch(e.key){
+            case "ArrowUp":
+            case "w":
+                GLOBALS.up = false;
+                break;
+            case "ArrowDown":
+            case "s":
+                GLOBALS.down = false;
+                break;
+            case "ArrowLeft":
+            case "a":
+                GLOBALS.left = false;
+                break;
+            case "ArrowRight":
+            case "d":
+                GLOBALS.right = false;
+                break;
+        }
+    });
     
     function toggleFullScreen()
     {
