@@ -1,2 +1,1 @@
-# VPDE
-First activity of Platform and Device Specific Videogames
+Crear una página web que utilice algún elemento canvas y explicar cómo se ha realizado.
